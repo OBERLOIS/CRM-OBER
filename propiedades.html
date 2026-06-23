@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ober CRM - Propiedades</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+        <div class="header-logo">
+            <span class="logo-icon"><i class="fas fa-building"></i></span>
+            <span class="logo-text">Ober CRM</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn-notification"><i class="fas fa-bell"></i></button>
+            <button class="btn-profile"><i class="fas fa-user-circle"></i></button>
+        </div>
+    </header>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-user">
+            <img src="https://ui-avatars.com/api/?name=Ober&background=1a3a5c&color=fff&size=60" alt="Ober">
+            <div class="user-info">
+                <h4>Ober</h4>
+                <span>Agente Inmobiliario</span>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="leads.html"><i class="fas fa-users"></i> Leads</a></li>
+            <li class="active"><a href="propiedades.html"><i class="fas fa-home"></i> Propiedades</a></li>
+            <li><a href="pipeline.html"><i class="fas fa-route"></i> Pipeline</a></li>
+            <li><a href="tareas.html"><i class="fas fa-tasks"></i> Tareas</a></li>
+            <li><a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a></li>
+            <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <button class="btn-logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1><i class="fas fa-home"></i> Propiedades</h1>
+            <button class="btn-primary" id="addPropiedadBtn"><i class="fas fa-plus"></i> Nueva Propiedad</button>
+        </div>
+
+        <!-- Filtros Rápidos -->
+        <div class="property-tabs">
+            <button class="tab-btn active" data-tipo="all">Todos</button>
+            <button class="tab-btn" data-tipo="venta-casa">Casas Venta</button>
+            <button class="tab-btn" data-tipo="venta-depto">Deptos Venta</button>
+            <button class="tab-btn" data-tipo="alquiler-casa">Casas Alquiler</button>
+            <button class="tab-btn" data-tipo="alquiler-depto">Deptos Alquiler</button>
+            <button class="tab-btn" data-tipo="terreno">Terrenos</button>
+            <button class="tab-btn" data-tipo="local">Locales</button>
+            <button class="tab-btn" data-tipo="proyecto">Proyectos</button>
+        </div>
+
+        <!-- Búsqueda -->
+        <div class="filters-bar">
+            <input type="text" class="search-input" id="searchPropiedad" placeholder="🔍 Buscar propiedad...">
+            <select class="filter-select" id="filterEstado">
+                <option value="all">Todos los estados</option>
+                <option value="disponible">Disponible</option>
+                <option value="reservada">Reservada</option>
+                <option value="vendida">Vendida</option>
+                <option value="alquilada">Alquilada</option>
+            </select>
+        </div>
+
+        <!-- Grid de Propiedades -->
+        <div class="properties-grid" id="propertiesGrid">
+            <!-- Se carga dinámicamente -->
+        </div>
+
+        <!-- Modal Nueva Propiedad -->
+        <div class="modal" id="propiedadModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Nueva Propiedad</h3>
+                    <button class="modal-close" id="closeModal">&times;</button>
+                </div>
+                <form id="propiedadForm">
+                    <div class="form-group">
+                        <label>Título *</label>
+                        <input type="text" id="propTitulo" required placeholder="Ej: Casa en Las Condes">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tipo *</label>
+                            <select id="propTipo" required>
+                                <option value="venta-casa">Venta - Casa</option>
+                                <option value="venta-depto">Venta - Departamento</option>
+                                <option value="alquiler-casa">Alquiler - Casa</option>
+                                <option value="alquiler-depto">Alquiler - Departamento</option>
+                                <option value="terreno">Terreno</option>
+                                <option value="local">Local comercial</option>
+                                <option value="proyecto">Proyecto nuevo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Precio *</label>
+                            <input type="number" id="propPrecio" required placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Habitaciones</label>
+                            <input type="number" id="propHabitaciones" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Baños</label>
+                            <input type="number" id="propBanos" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>m²</label>
+                            <input type="number" id="propMetros" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ubicación *</label>
+                        <input type="text" id="propUbicacion" required placeholder="Comuna, ciudad">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea id="propDescripcion" rows="3" placeholder="Descripción de la propiedad..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <select id="propEstado">
+                            <option value="disponible">Disponible</option>
+                            <option value="reservada">Reservada</option>
+                            <option value="vendida">Vendida</option>
+                            <option value="alquilada">Alquilada</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full">Guardar Propiedad</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="index.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+        <a href="leads.html"><i class="fas fa-users"></i><span>Leads</span></a>
+        <a href="propiedades.html" class="active"><i class="fas fa-home"></i><span>Propiedades</span></a>
+        <a href="pipeline.html"><i class="fas fa-route"></i><span>Pipeline</span></a>
+        <a href="tareas.html"><i class="fas fa-tasks"></i><span>Tareas</span></a>
+    </nav>
+
+    <script src="js/app.js"></script>
+    <script src="js/propiedades.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ober CRM - Pipeline</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+        <div class="header-logo">
+            <span class="logo-icon"><i class="fas fa-building"></i></span>
+            <span class="logo-text">Ober CRM</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn-notification"><i class="fas fa-bell"></i></button>
+            <button class="btn-profile"><i class="fas fa-user-circle"></i></button>
+        </div>
+    </header>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-user">
+            <img src="https://ui-avatars.com/api/?name=Ober&background=1a3a5c&color=fff&size=60" alt="Ober">
+            <div class="user-info">
+                <h4>Ober</h4>
+                <span>Agente Inmobiliario</span>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="leads.html"><i class="fas fa-users"></i> Leads</a></li>
+            <li><a href="propiedades.html"><i class="fas fa-home"></i> Propiedades</a></li>
+            <li class="active"><a href="pipeline.html"><i class="fas fa-route"></i> Pipeline</a></li>
+            <li><a href="tareas.html"><i class="fas fa-tasks"></i> Tareas</a></li>
+            <li><a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a></li>
+            <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <button class="btn-logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1><i class="fas fa-route"></i> Pipeline de Ventas</h1>
+            <span class="pipeline-total" id="pipelineTotal">0 leads</span>
+        </div>
+
+        <!-- Kanban Board -->
+        <div class="kanban-board" id="kanbanBoard">
+            <!-- Columnas generadas dinámicamente -->
+        </div>
+
+        <!-- Modal Detalle Lead -->
+        <div class="modal" id="leadDetailModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Detalle del Lead</h3>
+                    <button class="modal-close" id="closeDetailModal">&times;</button>
+                </div>
+                <div id="leadDetailContent">
+                    <!-- Contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="index.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+        <a href="leads.html"><i class="fas fa-users"></i><span>Leads</span></a>
+        <a href="propiedades.html"><i class="fas fa-home"></i><span>Propiedades</span></a>
+        <a href="pipeline.html" class="active"><i class="fas fa-route"></i><span>Pipeline</span></a>
+        <a href="tareas.html"><i class="fas fa-tasks"></i><span>Tareas</span></a>
+    </nav>
+
+    <script src="js/app.js"></script>
+    <script src="js/pipeline.js"></script>
+</body>
+</html>

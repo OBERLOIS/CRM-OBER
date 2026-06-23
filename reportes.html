@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ober CRM - Reportes</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+        <div class="header-logo">
+            <span class="logo-icon"><i class="fas fa-building"></i></span>
+            <span class="logo-text">Ober CRM</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn-notification"><i class="fas fa-bell"></i></button>
+            <button class="btn-profile"><i class="fas fa-user-circle"></i></button>
+        </div>
+    </header>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-user">
+            <img src="https://ui-avatars.com/api/?name=Ober&background=1a3a5c&color=fff&size=60" alt="Ober">
+            <div class="user-info">
+                <h4>Ober</h4>
+                <span>Agente Inmobiliario</span>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="leads.html"><i class="fas fa-users"></i> Leads</a></li>
+            <li><a href="propiedades.html"><i class="fas fa-home"></i> Propiedades</a></li>
+            <li><a href="pipeline.html"><i class="fas fa-route"></i> Pipeline</a></li>
+            <li><a href="tareas.html"><i class="fas fa-tasks"></i> Tareas</a></li>
+            <li class="active"><a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a></li>
+            <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <button class="btn-logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1><i class="fas fa-chart-bar"></i> Reportes</h1>
+            <div class="report-filters">
+                <select id="reportPeriod">
+                    <option value="mes">Este mes</option>
+                    <option value="trimestre">Este trimestre</option>
+                    <option value="semestre">Este semestre</option>
+                    <option value="anio">Este año</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #27ae60;">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Tasa de Conversión</span>
+                    <span class="stat-number" id="tasaConversion">0%</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #c9a84c;">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Tiempo Promedio Venta</span>
+                    <span class="stat-number" id="tiempoPromedio">0 días</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #2d6a9f;">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Ticket Promedio</span>
+                    <span class="stat-number" id="ticketPromedio">$0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="charts-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Leads por Etapa</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartEtapas"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Propiedades por Tipo</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartPropiedades"></canvas>
+                </div>
+            </div>
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3>Evolución de Leads (Últimos 6 meses)</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartEvolucion"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="index.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+        <a href="leads.html"><i class="fas fa-users"></i><span>Leads</span></a>
+        <a href="propiedades.html"><i class="fas fa-home"></i><span>Propiedades</span></a>
+        <a href="pipeline.html"><i class="fas fa-route"></i><span>Pipeline</span></a>
+        <a href="tareas.html"><i class="fas fa-tasks"></i><span>Tareas</span></a>
+    </nav>
+
+    <script src="js/app.js"></script>
+    <script src="js/reportes.js"></script>
+</body>
+</html>

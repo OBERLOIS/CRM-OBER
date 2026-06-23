@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ober CRM - Configuración</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+        <div class="header-logo">
+            <span class="logo-icon"><i class="fas fa-building"></i></span>
+            <span class="logo-text">Ober CRM</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn-notification"><i class="fas fa-bell"></i></button>
+            <button class="btn-profile"><i class="fas fa-user-circle"></i></button>
+        </div>
+    </header>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-user">
+            <img src="https://ui-avatars.com/api/?name=Ober&background=1a3a5c&color=fff&size=60" alt="Ober">
+            <div class="user-info">
+                <h4>Ober</h4>
+                <span>Agente Inmobiliario</span>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="leads.html"><i class="fas fa-users"></i> Leads</a></li>
+            <li><a href="propiedades.html"><i class="fas fa-home"></i> Propiedades</a></li>
+            <li><a href="pipeline.html"><i class="fas fa-route"></i> Pipeline</a></li>
+            <li><a href="tareas.html"><i class="fas fa-tasks"></i> Tareas</a></li>
+            <li><a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a></li>
+            <li class="active"><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <button class="btn-logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1><i class="fas fa-cog"></i> Configuración</h1>
+        </div>
+
+        <div class="config-grid">
+            <!-- Perfil -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-user"></i> Mi Perfil</h3>
+                </div>
+                <div class="card-body">
+                    <div class="profile-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Ober&background=1a3a5c&color=fff&size=100" alt="Ober">
+                        <button class="btn-secondary btn-sm">Cambiar foto</button>
+                    </div>
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label>Nombre completo</label>
+                            <input type="text" value="Ober" id="configNombre">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" value="ober@inmobiliaria.com" id="configEmail">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" value="+56 9 1234 5678" id="configTelefono">
+                        </div>
+                        <button type="submit" class="btn-primary">Guardar cambios</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- WhatsApp -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fab fa-whatsapp"></i> Integración WhatsApp</h3>
+                </div>
+                <div class="card-body">
+                    <div class="config-item">
+                        <label>
+                            <input type="checkbox" checked> Activar WhatsApp Business
+                        </label>
+                        <p class="config-help">Envía mensajes automáticos a tus leads</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Mensaje de bienvenida</label>
+                        <textarea rows="3" id="whatsappMensaje">Hola! Soy Ober, agente inmobiliario. ¿Cómo puedo ayudarte con tu búsqueda de propiedad?</textarea>
+                    </div>
+                    <button class="btn-primary" onclick="testWhatsApp()"><i class="fab fa-whatsapp"></i> Probar integración</button>
+                </div>
+            </div>
+
+            <!-- Recordatorios -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-bell"></i> Recordatorios</h3>
+                </div>
+                <div class="card-body">
+                    <div class="config-item">
+                        <label>
+                            <input type="checkbox" checked> Recordatorios de tareas
+                        </label>
+                    </div>
+                    <div class="config-item">
+                        <label>
+                            <input type="checkbox"> Recordatorios por WhatsApp
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Horario de recordatorios</label>
+                        <select>
+                            <option>09:00 AM</option>
+                            <option>10:00 AM</option>
+                            <option selected>11:00 AM</option>
+                            <option>12:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Datos -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-database"></i> Datos</h3>
+                </div>
+                <div class="card-body">
+                    <div class="config-item">
+                        <p><strong>Leads:</strong> <span id="configTotalLeads">0</span></p>
+                        <p><strong>Propiedades:</strong> <span id="configTotalPropiedades">0</span></p>
+                        <p><strong>Tareas:</strong> <span id="configTotalTareas">0</span></p>
+                    </div>
+                    <div class="config-actions">
+                        <button class="btn-secondary" onclick="exportarDatos()"><i class="fas fa-download"></i> Exportar datos</button>
+                        <button class="btn-danger" onclick="borrarDatos()"><i class="fas fa-trash"></i> Borrar todos los datos</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="index.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+        <a href="leads.html"><i class="fas fa-users"></i><span>Leads</span></a>
+        <a href="propiedades.html"><i class="fas fa-home"></i><span>Propiedades</span></a>
+        <a href="pipeline.html"><i class="fas fa-route"></i><span>Pipeline</span></a>
+        <a href="tareas.html"><i class="fas fa-tasks"></i><span>Tareas</span></a>
+    </nav>
+
+    <script src="js/app.js"></script>
+    <script src="js/configuracion.js"></script>
+</body>
+</html>
