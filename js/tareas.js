@@ -179,9 +179,10 @@ function programarRecordatorio(tarea) {
     const hoy = new Date().toISOString().split('T')[0];
     if (tarea.fecha !== hoy) return;
     
-    // Calcular tiempo hasta la hora programada
+    // Verificar si tiene hora
     if (!tarea.hora) return;
     
+    // Calcular tiempo hasta la hora programada
     const [horas, minutos] = tarea.hora.split(':').map(Number);
     const ahora = new Date();
     const horaTarea = new Date();
@@ -195,19 +196,73 @@ function programarRecordatorio(tarea) {
             // Verificar si la tarea sigue pendiente
             const tareaActual = APP.datos.tareas.find(t => t.id === tarea.id);
             if (tareaActual && !tareaActual.completada) {
-                mostrarNotificacion(`⏰ RECORDATORIO: "${tarea.titulo}" a las ${tarea.hora}`);
                 
-                // Notificación del navegador (si permite)
+                // ====== CAMBIO 1: NOTIFICACIÓN MEJORADA ======
+                mostrarNotificacion(`⏰ RECORDATORIO: "${tarea.titulo}" a las ${tarea.hora}`, 'success', 7000);
+                
+                // ====== CAMBIO 2: NOTIFICACIÓN CON MÁS OPCIONES ======
                 if ('Notification' in window && Notification.permission === 'granted') {
-                    new Notification('Ober CRM - Recordatorio', {
+                    const notificacion = new Notification('🏠 Ober CRM - Recordatorio', {
                         body: `${tarea.titulo} a las ${tarea.hora}`,
-                        icon: 'img/icon-512.png'
+                        icon: 'img/icon-512.png',
+                        tag: `tarea-${tarea.id}`,
+                        requireInteraction: true,  // 🔴 NO SE CIERRA AUTOMÁTICAMENTE
+                        vibrate: [200, 100, 200, 100, 200],  // 📳 VIBRACIÓN
+                        silent: false  // 🔊 CON SONIDO
                     });
+                    
+                    // ====== CAMBIO 3: AL HACER CLICK EN NOTIFICACIÓN ======
+                    notificacion.onclick = function() {
+                        window.focus();  // Trae la app al frente
+                        this.close();    // Cierra la notificación
+                    };
                 }
+                
+                // ====== CAMBIO 4: SONIDO DE ALERTA ======
+                try {
+                    const audio = new Audio('data:audio/wav;base64,UklGRlQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoAAACBhYqOhIWBhYaHh4aHiYmJh4eJiYqJh4eKi4uKh4eLjI6Lh4eNkZCOiIqNkpaTjoyOk5iZlo6Qk5qcnpCQlJ2foZOVl56io5iXnKGmpZmXn6OorKCanqWpq62am6Oorq+cnKOpra+wnaCmq7GztKGnrLK1tqOosLO3uKSqsba6u6Wrs7e8vaass7e9v7+ttLm/wcGvt7vCxMOyuLzFxsezu8DGycu0usLJzM61usPKz9DVu8TM0dPXvcTO0tfa');
+                    audio.play().catch(function(error) {
+                        // Si no puede reproducir, ignora el error
+                        console.log('🔇 Sonido no disponible');
+                    });
+                } catch(e) {
+                    console.log('🔇 Error con sonido');
+                }
+                
+                // ====== CAMBIO 5: LOG EN CONSOLA ======
+                console.log(`🔔 Recordatorio ejecutado: "${tarea.titulo}" a las ${tarea.hora}`);
             }
         }, diferencia);
+        
+        // ====== CAMBIO 6: LOG DE PROGRAMACIÓN ======
+        console.log(`⏰ Recordatorio programado para "${tarea.titulo}" a las ${tarea.hora} (en ${Math.round(diferencia/60000)} minutos)`);
     }
 }
+// ===== SOLICITAR PERMISO DE NOTIFICACIONES AL INICIAR =====
+function solicitarPermisoNotificaciones() {
+    if ('Notification' in window) {
+        if (Notification.permission === 'default') {
+            Notification.requestPermission().then(function(permission) {
+                if (permission === 'granted') {
+                    console.log('✅ Notificaciones permitidas');
+                    mostrarNotificacion('🔔 Notificaciones activadas');
+                } else {
+                    console.log('❌ Notificaciones denegadas');
+                }
+            });
+        } else if (Notification.permission === 'granted') {
+            console.log('✅ Notificaciones ya permitidas');
+        }
+    } else {
+        console.log('❌ Este navegador no soporta notificaciones');
+    }
+}
+
+// Llamar al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    // ... código existente ...
+    solicitarPermisoNotificaciones();
+});
 
 // ===== SOLICITAR PERMISO NOTIFICACIONES =====
 if ('Notification' in window && Notification.permission === 'default') {

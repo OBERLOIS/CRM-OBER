@@ -12,8 +12,8 @@ const APP = {
         tareas: [],
         config: {
             nombre: 'Ober',
-            email: 'ober@inmobiliaria.com',
-            telefono: '+56 9 1234 5678',
+            email: 'oberpizarro@gmail.com',
+            telefono: '+51 978300275',
             whatsappMensaje: 'Hola! Soy Ober, agente inmobiliario. ¿Cómo puedo ayudarte con tu búsqueda de propiedad?'
         }
     }
@@ -34,6 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Cerrar modal con click fuera
     cerrarModalClickFuera();
+    
+    // ===== NUEVO: Solicitar permisos de notificación =====
+    setTimeout(solicitarPermisoNotificaciones, 1000);
 });
 
 // ===== LOCALSTORAGE =====
@@ -283,6 +286,146 @@ function obtenerTipoPropiedad(tipo) {
     return tipos[tipo] || tipo;
 }
 
+// ============================================
+// NOTIFICACIONES MEJORADAS (TOAST)
+// ============================================
+
+// ===== NOTIFICACIONES EN PANTALLA =====
+function mostrarNotificacion(mensaje, tipo = 'info', duracion = 4000) {
+    // Eliminar notificaciones anteriores
+    const notificacionesAnteriores = document.querySelectorAll('.custom-toast');
+    notificacionesAnteriores.forEach(n => n.remove());
+    
+    // Crear contenedor si no existe
+    let container = document.getElementById('toastContainer');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toastContainer';
+        container.style.cssText = `
+            position: fixed;
+            top: 70px;
+            right: 16px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 90%;
+            pointer-events: none;
+        `;
+        document.body.appendChild(container);
+    }
+    
+    // Definir colores según tipo
+    const colores = {
+        'success': '#27ae60',
+        'error': '#e74c3c',
+        'warning': '#f39c12',
+        'info': '#2d6a9f'
+    };
+    
+    const color = colores[tipo] || colores.info;
+    
+    // Crear notificación
+    const toast = document.createElement('div');
+    toast.className = 'custom-toast';
+    toast.style.cssText = `
+        background: white;
+        color: #2c3e50;
+        padding: 14px 20px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        border-left: 5px solid ${color};
+        font-weight: 500;
+        font-size: 14px;
+        pointer-events: auto;
+        animation: toastSlideIn 0.4s ease;
+        max-width: 400px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    `;
+    
+    // Ícono según tipo
+    const iconos = {
+        'success': '✅',
+        'error': '❌',
+        'warning': '⚠️',
+        'info': 'ℹ️'
+    };
+    
+    toast.innerHTML = `
+        <span style="font-size:20px;">${iconos[tipo] || 'ℹ️'}</span>
+        <span style="flex:1;">${mensaje}</span>
+        <button onclick="this.parentElement.remove()" style="
+            background:none;
+            border:none;
+            font-size:18px;
+            cursor:pointer;
+            color:#999;
+            padding:0 4px;
+        ">✕</button>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Auto-eliminar después de la duración
+    setTimeout(() => {
+        if (toast.parentElement) {
+            toast.style.animation = 'toastSlideOut 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }
+    }, duracion);
+    
+    // También mostrar en consola
+    console.log(`📢 ${mensaje}`);
+}
+
+// ===== AGREGAR ESTILOS DE ANIMACIÓN =====
+function agregarEstilosToast() {
+    // Verificar si ya existen
+    if (document.getElementById('toastStyles')) return;
+    
+    const style = document.createElement('style');
+    style.id = 'toastStyles';
+    style.textContent = `
+        @keyframes toastSlideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes toastSlideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Llamar al iniciar
+agregarEstilosToast();
+
+// ===== SOLICITAR PERMISO DE NOTIFICACIONES =====
+function solicitarPermisoNotificaciones() {
+    if ('Notification' in window) {
+        if (Notification.permission === 'default') {
+            Notification.requestPermission().then(function(permission) {
+                if (permission === 'granted') {
+                    console.log('✅ Notificaciones permitidas');
+                    mostrarNotificacion('🔔 Notificaciones activadas', 'success', 3000);
+                } else {
+                    console.log('❌ Notificaciones denegadas');
+                    mostrarNotificacion('⚠️ Permiso de notificaciones denegado', 'warning', 3000);
+                }
+            });
+        } else if (Notification.permission === 'granted') {
+            console.log('✅ Notificaciones ya permitidas');
+        } else {
+            console.log('❌ Notificaciones denegadas previamente');
+        }
+    } else {
+        console.log('❌ Este navegador no soporta notificaciones');
+    }
+}
+
 // ===== EXPORTAR =====
 window.APP = APP;
 window.abrirWhatsApp = abrirWhatsApp;
@@ -293,3 +436,5 @@ window.generarId = generarId;
 window.formatearPrecio = formatearPrecio;
 window.obtenerEtapaNombre = obtenerEtapaNombre;
 window.obtenerTipoPropiedad = obtenerTipoPropiedad;
+window.mostrarNotificacion = mostrarNotificacion;  // <--- NUEVO
+window.solicitarPermisoNotificaciones = solicitarPermisoNotificaciones;  // <--- NUEVO
